@@ -27,7 +27,7 @@ import com.alibaba.nacos.core.utils.ApplicationUtils;
  * @author <a href="mailto:liaochuntao@live.com">liaochuntao</a>
  */
 public class ConfigChangePublisher {
-    
+
     /**
      * Notify ConfigChange.
      *
@@ -37,7 +37,9 @@ public class ConfigChangePublisher {
         if (PropertyUtil.isEmbeddedStorage() && !ApplicationUtils.getStandaloneMode()) {
             return;
         }
+        //通知中心管理发布和订阅，发布事件时，懒加载创建defaultPublisher对象(对象集成Thread,在初始化时调用init(),启动线程监听订阅消息（）)
+        //receiveEvent()轮询当前所有的订阅，执行订阅任务（配置数据更改）
         NotifyCenter.publishEvent(event);
     }
-    
+
 }
